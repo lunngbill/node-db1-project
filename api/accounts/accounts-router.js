@@ -20,7 +20,7 @@ router.get('/:id', middleware.checkAccountId, (req, res) => {
 router.post('/', middleware.checkAccountPayload, middleware.checkAccountNameUnique, async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    const newAccount = await account.create(req.body)
+    const newAccount = await account.create({ name: req.body.name.trim(), budget: req.body.budget})
     res.status(201).json(newAccount)
   } catch (err) {
     next(err)
@@ -30,11 +30,12 @@ router.post('/', middleware.checkAccountPayload, middleware.checkAccountNameUniq
 router.put('/:id', 
     middleware.checkAccountId, 
     middleware.checkAccountPayload, 
-    middleware.checkAccountNameUnique, 
-    (req, res, next) => {
+    async (req, res, next) => {
   // DO YOUR MAGIC
+  const updateAccount = await account.updateById(req.params.id, req.body)
+  res.json(updateAccount)
   try {
-
+    res.json('update account')
   } catch (err) {
     next(err)
   }
@@ -44,7 +45,7 @@ router.delete('/:id', middleware.checkAccountId, async (req, res, next) => {
   // DO YOUR MAGIC
   try {
     await account.deleteById(req.params.id)
-    resjson(req.account)
+    res.json(req.account)
   } catch (err) {
     next(err)
   }
