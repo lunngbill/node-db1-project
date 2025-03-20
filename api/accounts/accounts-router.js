@@ -12,20 +12,15 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', middleware.checkAccountId, (req, res, next) => {
+router.get('/:id', middleware.checkAccountId, (req, res) => {
   // DO YOUR MAGIC
-  try {
-
-  } catch (err) {
-    next(err)
-  }
+  res.json(req.account)
 })
 
 router.post('/', middleware.checkAccountPayload, middleware.checkAccountNameUnique, async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    const accountId = await account.getById(req.params.id)
-    res.json(accountId)
+
   } catch (err) {
     next(err)
   }
