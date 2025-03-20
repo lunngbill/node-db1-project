@@ -32,10 +32,9 @@ router.put('/:id',
     middleware.checkAccountPayload, 
     async (req, res, next) => {
   // DO YOUR MAGIC
-  const updateAccount = await account.updateById(req.params.id, req.body)
-  res.json(updateAccount)
   try {
-    res.json('update account')
+    const updateAccount = await account.updateById(req.params.id, req.body)
+    res.json(updateAccount)
   } catch (err) {
     next(err)
   }
